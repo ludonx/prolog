@@ -46,11 +46,7 @@ sommet_induit(NomF, Si,ListeMotif) :-
     member(Si,S),
     Si=sommet(X,ListeMotifDuSommetX),
     member_liste(ListeMotif,ListeMotifDuSommetX).
-sommet_induit(NomF, Si,ListeMotif,[Si|Liste_Si]) :-
-    read_dot_file(NomF, att_graph(S,A)),
-    member(Si,S),
-    Si=sommet(X,ListeMotifDuSommetX),
-    member_liste(ListeMotif,ListeMotifDuSommetX).
+
 /*
 exemple :
 ?- sommet_induit("mougel_bis.dot",Si,[rock,blues])
