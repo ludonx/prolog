@@ -14,8 +14,11 @@ member_liste([X|ListeMotif],Liste):-member(X,Liste),member_liste(ListeMotif,List
 
 /* donne la liste des sommets qui contient le motif Motif
   sommet_induit(+NomF,+ListeMotif,-L)
+  NomF : nom du fichier où se trouve le graph
+  ListeMotif : liste de motif que l'on recherche
+  L : liste des sommet induit
 */
-sommet_induit(NomF,ListeMotif,L) :-
+sommet_induitX(NomF,ListeMotif,L) :-
     read_dot_file(NomF, att_graph(S,A)),
     findall(X,
       (
@@ -53,7 +56,7 @@ false.
 
 */
 
-/* arete_induit(+NomF,+ListeMotif, -Ai,-X,-Y)*/
+/* arete_induit(+NomF,+ListeMotif, -L)*/
 
 arete_induit(NomF,ListeMotif,L) :-
   read_dot_file(NomF, att_graph(S,A)),
@@ -61,7 +64,7 @@ arete_induit(NomF,ListeMotif,L) :-
     (
     member(Ai,A),
     Ai=arete(X, Y),
-    sommet_induit(NomF,ListeMotif,Ls),
+    sommet_induitX(NomF,ListeMotif,Ls),
     member(X,Ls),
     member(Y,Ls)
     )
@@ -69,25 +72,9 @@ arete_induit(NomF,ListeMotif,L) :-
     open('arete.txt',write,Stream),
     write(Stream,L),  nl(Stream),
     close(Stream).
-arete_induit2(NomF,ListeMotif,L) :-
-  read_dot_file(NomF, att_graph(S,A)),
-  findall(Ai,
-    (
-    member(Ai,A),
-    Ai=arete(X, Y),
-    sommet_induitSi(NomF,ListeMotif,Ls),
-    member(sommet(X,Lm),Ls),
-    member(sommet(Y,Lm),Ls)
-    )
-    ,L),
-    open('arete2.txt',write,Stream),
-    write(Stream,L),  nl(Stream),
-    close(Stream).
+
 /*
-
-?- arete_induit2("mougel_bis.dot",[rock],L).
-L = [arete(a, c), arete(a, d), arete(c, d), arete(c, g), arete(n, r), arete(o, q)]
-
+exemple :
 ?- arete_induit("mougel_bis.dot",[rock],L).
 L = [arete(a, b), arete(a, c), arete(a, d), arete(a, e), arete(a, k), arete(a, r), arete(b, c), arete(b, d), arete(..., ...)|...]
 
@@ -101,3 +88,12 @@ arete_induit(NomF,ListeMotif, Ai,X,Y) :-
   write(Stream,Ai),  nl(Stream),
   close(Stream).
 */
+
+graph_induit(NomF,ListeMotif,NomGi,LS,LA) :-
+  sommet_induitSi(NomF,ListeMotif,LS),
+  arete_induit(NomF,ListeMotif,LA),
+  open(NomGi,write,Stream),
+  writeln(Stream,LS),  nl(Stream),
+  writeln(Stream,LA),  nl(Stream),
+  close(Stream).
+/*?- graph_induit("mougel_bis.dot",[rock,blues],"Gi_rock,blues",LS,LA)*/
