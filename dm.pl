@@ -39,9 +39,9 @@ member_liste([],Liste).
 member_liste([X|ListeMotif],Liste):-member(X,Liste),member_liste(ListeMotif,Liste).
 liste(X,L, [X | L]).
 /* donne la liste des sommets qui contient le motif Motif
-  sommet_induit(+NomF, -Si,+Motif)
+  sommet_induit(+NomF,+ListeMotif,-Si,-X)
 */
-sommet_induit(NomF, Si,ListeMotif) :-
+sommet_induit(NomF,ListeMotif,Si,X) :-
     read_dot_file(NomF, att_graph(S,A)),
     member(Si,S),
     Si=sommet(X,ListeMotifDuSommetX),
@@ -57,11 +57,10 @@ Si = sommet(r, [rock, folk, pop, blues]) ;
 
 */
 
-/* arete_induit(+NomF, -Ai)
-arete_induit(NomF, Ai) :-
+/* arete_induit(+NomF,+ListeMotif, -Ai,-X,-Y)  */
+arete_induit(NomF,ListeMotif, Ai,X,Y) :-
   read_dot_file(NomF, att_graph(S,A)),
-  sommet_induit(NomF, Si,ListeMotif)
   member(Ai,A),
-  Si=sommet(X,ListeMotifDuSommetX),
-  member_liste(ListeMotif,ListeMotifDuSommetX).
-  */
+  Ai=arete(X, Y),
+  sommet_induit(NomF,ListeMotif,X),
+  sommet_induit(NomF,ListeMotif,Y).
