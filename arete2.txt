@@ -1,0 +1,1 @@
+[arete(a,c),arete(a,d),arete(c,d),arete(c,g),arete(n,r),arete(o,q)]
