@@ -62,5 +62,8 @@ arete_induit(NomF,ListeMotif, Ai,X,Y) :-
   read_dot_file(NomF, att_graph(S,A)),
   member(Ai,A),
   Ai=arete(X, Y),
-  sommet_induit(NomF,ListeMotif,X),
-  sommet_induit(NomF,ListeMotif,Y).
+  sommet_induit(NomF,ListeMotif,SX,X),
+  sommet_induit(NomF,ListeMotif,SY,Y),
+  open('hogwarts.txt',append,Stream),
+  write(Stream,Ai),  nl(Stream),
+  close(Stream).
