@@ -1,1 +1,1 @@
-[arete(a,b),arete(a,c),arete(a,d),arete(a,e),arete(a,k),arete(a,r),arete(b,c),arete(b,d),arete(c,d),arete(c,g),arete(c,m),arete(e,g),arete(e,h),arete(g,h),arete(k,p),arete(m,n),arete(n,o),arete(n,p),arete(n,q),arete(n,r),arete(o,p),arete(o,q),arete(o,r),arete(p,q),arete(p,r),arete(q,r)]
+[]

@@ -1,4 +1,10 @@
-[sommet(b,[rock,folk,blues,jazz]),sommet(e,[rock,folk,blues]),sommet(n,[rock,folk,pop,blues]),sommet(r,[rock,folk,pop,blues])]
+Graph {
+  labelloc=top;
+  fontsize=18;
+  label="Gouts musicaux, [rock, folk, pop,  blues, jazz]";
+[sommet(b,[rock,folk,blues,jazz])]
 
-[arete(n,r)]
+[]
+
+[rock,folk,blues,jazz]
 

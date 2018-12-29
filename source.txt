@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/46899153/making-a-union-of-two-lists-in-prolog

@@ -78,22 +78,38 @@ exemple :
 ?- arete_induit("mougel_bis.dot",[rock],L).
 L = [arete(a, b), arete(a, c), arete(a, d), arete(a, e), arete(a, k), arete(a, r), arete(b, c), arete(b, d), arete(..., ...)|...]
 
-arete_induit(NomF,ListeMotif, Ai,X,Y) :-
-  read_dot_file(NomF, att_graph(S,A)),
-  member(Ai,A),
-  Ai=arete(X, Y),
-  sommet_induit(NomF,ListeMotif,SX,X),
-  sommet_induit(NomF,ListeMotif,SY,Y),
-  open('hogwarts.txt',append,Stream),
-  write(Stream,Ai),  nl(Stream),
-  close(Stream).
 */
 
-graph_induit(NomF,ListeMotif,NomGi,LS,LA) :-
+/*
+https://stackoverflow.com/questions/46899153/making-a-union-of-two-lists-in-prolog
+*/
+union([],[],[]).
+union(List1,[],List1).
+union(List1, [Head2|Tail2], [Head2|Output]):-
+    \+(member(Head2,List1)), union(List1,Tail2,Output).
+union(List1, [Head2|Tail2], Output):-
+    member(Head2,List1), union(List1,Tail2,Output).
+
+
+union_gout_music([X],Y):- X = sommet(A,Y).
+union_gout_music([TLS|LS],LM):-
+  TLS=sommet(X,ListeMotifDuSommetXTLS),
+  union_gout_music(LS,L),
+  union(ListeMotifDuSommetXTLS,L,LM).
+
+graph_induit(NomF,ListeMotif,NomGi,LS,LA,LM) :-
   sommet_induitSi(NomF,ListeMotif,LS),
   arete_induit(NomF,ListeMotif,LA),
+  union_gout_music(LS,LM),
+
   open(NomGi,write,Stream),
+  writeln(Stream,"Graph {"),
+  writeln(Stream,"  labelloc=top;"),
+  writeln(Stream,"  fontsize=18;"),
+  writeln(Stream,"  label=""Gouts musicaux, [rock, folk, pop,  blues, jazz]"";"),
+
   writeln(Stream,LS),  nl(Stream),
   writeln(Stream,LA),  nl(Stream),
+  writeln(Stream,LM),  nl(Stream),
   close(Stream).
 /*?- graph_induit("mougel_bis.dot",[rock,blues],"Gi_rock,blues",LS,LA)*/
