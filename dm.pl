@@ -82,6 +82,8 @@ L = [arete(a, b), arete(a, c), arete(a, d), arete(a, e), arete(a, k), arete(a, r
 
 /*
 https://stackoverflow.com/questions/46899153/making-a-union-of-two-lists-in-prolog
+
+union de deux liste sans doublons
 */
 union([],[],[]).
 union(List1,[],List1).
@@ -90,26 +92,65 @@ union(List1, [Head2|Tail2], [Head2|Output]):-
 union(List1, [Head2|Tail2], Output):-
     member(Head2,List1), union(List1,Tail2,Output).
 
+/* permet de trouve la liste des Gouts musicaux sans doublons
+ du graph a partir de la liste des sommet
 
+exemple :
+?- union_gout_music([sommet(b,[rock,folk,blues,jazz]),sommet(e,[rock,folk,blues,a,r])],X).
+X = [a, r, rock, folk, blues, jazz] ;
+false.
+*/
 union_gout_music([X],Y):- X = sommet(A,Y).
 union_gout_music([TLS|LS],LM):-
   TLS=sommet(X,ListeMotifDuSommetXTLS),
   union_gout_music(LS,L),
   union(ListeMotifDuSommetXTLS,L,LM).
 
+write_sommet(NomGi,[]).
+write_sommet(NomGi,[S|LS]):-
+  S=sommet(X,ListeMotifDuSommetX),
+  open(NomGi,append,Stream),
+  write(Stream,"  "),
+  write(Stream,X),
+  write(Stream," [label="""),
+  write(Stream,X),
+  write(Stream," "),
+  write(Stream,ListeMotifDuSommetX),
+  writeln(Stream,"""];"),
+  close(Stream),
+  write_sommet(NomGi,LS).
+
+write_arete(NomGi,[]).
+write_arete(NomGi,[A|LA]):-
+  A=arete(X,Y),
+  open(NomGi,append,Stream),
+  write(Stream,"  "),
+  write(Stream,X),
+  write(Stream," -- "),
+  write(Stream,Y),
+  writeln(Stream,";"),
+  close(Stream),
+  write_arete(NomGi,LA).
+
 graph_induit(NomF,ListeMotif,NomGi,LS,LA,LM) :-
   sommet_induitSi(NomF,ListeMotif,LS),
   arete_induit(NomF,ListeMotif,LA),
   union_gout_music(LS,LM),
 
+
   open(NomGi,write,Stream),
   writeln(Stream,"Graph {"),
   writeln(Stream,"  labelloc=top;"),
   writeln(Stream,"  fontsize=18;"),
-  writeln(Stream,"  label=""Gouts musicaux, [rock, folk, pop,  blues, jazz]"";"),
+  write(Stream,"  label=""Gouts musicaux, "),
+  write(Stream,LM),
+  writeln(Stream,""";"),
+  close(Stream),
 
-  writeln(Stream,LS),  nl(Stream),
-  writeln(Stream,LA),  nl(Stream),
-  writeln(Stream,LM),  nl(Stream),
-  close(Stream).
+  write_sommet(NomGi,LS),
+  write_arete(NomGi,LA),
+
+  open(NomGi,append,Stream2),
+  writeln(Stream2,"}"),
+  close(Stream2).
 /*?- graph_induit("mougel_bis.dot",[rock,blues],"Gi_rock,blues",LS,LA)*/
