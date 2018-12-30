@@ -14,7 +14,7 @@ member_liste([X|ListeMotif],Liste):-member(X,Liste),member_liste(ListeMotif,List
 
 /* donne la liste des sommets qui contient le motif Motif
   sommet_induit(+NomF,+ListeMotif,-L)
-  NomF : nom du fichier où se trouve le graph
+  NomF : nom du fichier qui contient le graph
   ListeMotif : liste de motif que l'on recherche
   L : liste des sommet induit
 */
@@ -106,6 +106,11 @@ union_gout_music([TLS|LS],LM):-
   union_gout_music(LS,L),
   union(ListeMotifDuSommetXTLS,L,LM).
 
+/*  write_sommet(NomGi,LS).
+NomF : nom du fichier qui contient le graph
+LS :
+S=sommet(X,ListeMotifDuSommetX),
+*/
 write_sommet(NomGi,[]).
 write_sommet(NomGi,[S|LS]):-
   S=sommet(X,ListeMotifDuSommetX),
@@ -120,6 +125,11 @@ write_sommet(NomGi,[S|LS]):-
   close(Stream),
   write_sommet(NomGi,LS).
 
+/*write_arete(NomGi,LA)
+NomF : nom du fichier qui contient le graph
+LA:
+A=arete(X,Y),
+*/
 write_arete(NomGi,[]).
 write_arete(NomGi,[A|LA]):-
   A=arete(X,Y),
@@ -132,6 +142,14 @@ write_arete(NomGi,[A|LA]):-
   close(Stream),
   write_arete(NomGi,LA).
 
+/*graph_induit(+NomF,+ListeMotif,+NomGi,-LS,-LA,-LM)
++NomF :
++ListeMotif :
++NomF : nom du fichier qui contient le graph
+-LS :
+-LA :
+-LM :
+*/
 graph_induit(NomF,ListeMotif,NomGi,LS,LA,LM) :-
   sommet_induitSi(NomF,ListeMotif,LS),
   arete_induit(NomF,ListeMotif,LA),
@@ -153,4 +171,17 @@ graph_induit(NomF,ListeMotif,NomGi,LS,LA,LM) :-
   open(NomGi,append,Stream2),
   writeln(Stream2,"}"),
   close(Stream2).
-/*?- graph_induit("mougel_bis.dot",[rock,blues],"Gi_rock,blues",LS,LA)*/
+/*
+?- graph_induit("mougel_bis.dot",[rock,blues],"G1.dot",LS,LA,LM).
+LS = [sommet(b, [rock, folk, blues, jazz]), sommet(e, [rock, folk, blues]), sommet(n, [rock, folk, pop, blues]), sommet(r, [rock, folk, po
+p, blues])],
+LA = [arete(n, r)],
+LM = [pop, rock, folk, blues, jazz] ;
+false.
+
+
+?- graph_induit("G1.dot",[rock,blues],"G2.dot",LS,LA,LM)
+LS = [sommet(b, [rock, folk, blues, jazz])],
+LA = [],
+LM = [rock, folk, blues, jazz] ;
+*/
