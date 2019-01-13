@@ -1,1 +1,12 @@
 https://stackoverflow.com/questions/46899153/making-a-union-of-two-lists-in-prolog
+arete_abstrait(LSa,[A|LA],LAa):-
+  (
+  arete_abstrait(LSa,A,LAa1),
+  arete_abstrait(LSa,LA,LAa2),
+  append(LAa1,LAa2,LAa)
+  );
+  (
+  not(arete_abstrait(LSa,A,LAa1)),
+  arete_abstrait(LSa,LA,LAa2),
+  append([],LAa2,LAa)
+  ).

@@ -1,1 +1,0 @@
-[sommet(b,[rock,folk,blues,jazz]),sommet(e,[rock,folk,blues]),sommet(n,[rock,folk,pop,blues]),sommet(r,[rock,folk,pop,blues])]
