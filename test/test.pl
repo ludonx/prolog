@@ -18,6 +18,9 @@
  	point_fixe(NG,Prop,NNG),write_dot_file(NomOut,NNG).
 
 
-  % read_dot_file("mougel_bis.dot",G),graph_induit(G,[rock],Gi),write_dot_file("Gi_test2.dot",Gi).
-  % read_dot_file("deg.dot",G),graph_induit(G,[rock],Gi),degre(Gi,Ga,2),write_dot_file("Ga_test3.dot",Ga).
-  % read_dot_file("deg.dot",G),graph_induit(G,[rock],Gi),etoile(Gi,Ga),write_dot_file("Ga_test3.dot",Ga).
+  % read_dot_file("mougel_bis.dot",G),graphe_induit(G,[rock],Gi),write_dot_file("Gi_test2.dot",Gi).
+  % read_dot_file("deg.dot",G),graphe_induit(G,[rock],Gi),degre(Gi,Ga,2),write_dot_file("Ga_test3.dot",Ga).
+  % read_dot_file("deg.dot",G),graphe_induit(G,[rock],Gi),triangle(Gi,Ga),write_dot_file("Ga_test_triangle.dot",Ga).
+  % read_dot_file("deg.dot",G),graphe_induit(G,[rock],Gi),etoile(G,Ga,4),write_dot_file("Ga_test_etoile.dot",Ga).
+  % read_dot_file("deg.dot",G),graphe_induit(G,[rock],Gi),etoile(G,Ga,3),write_dot_file("Ga_test_etoile.dot",Ga).
+  % read_dot_file("deg.dot",G),etoile(G,Ga,4),write_dot_file("Ga_test_etoile.dot",Ga).

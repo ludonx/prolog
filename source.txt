@@ -10,3 +10,65 @@ arete_abstrait(LSa,[A|LA],LAa):-
   arete_abstrait(LSa,LA,LAa2),
   append([],LAa2,LAa)
   ).
+  sommet_abstrait_etoile([],_LA,[],_Deg).
+  sommet_abstrait_etoile(S,LA,LSa,Deg):-
+    degre_sommet(S,LA,N),
+    N >= Deg,
+    append([S],[],LSa).
+  sommet_abstrait_etoile([S|LS],LA,LSa,Deg):-
+    (
+    writeln(S),
+    sommet_abstrait_etoile(S,LA,LSa1,Deg)->
+                                      writeln(" ok if1"),
+                                      sommet_abstrait_etoile(LS,LA,LSa2,Deg),
+                                      append(LSa1,LSa2,LSa)
+                                      ;
+                                      writeln(" not ok if1"),
+                                      (
+                                      sommet_abstrait_etoile_voisin(S,LS,LA,Deg)->
+                                                  writeln(" ok if2"),
+                                                  append([S],[],LSa1),
+                                                  sommet_abstrait_etoile(LS,LA,LSa2,Deg),
+                                                  append(LSa1,LSa2,LSa)
+                                                  ;
+                                                  writeln(" not ok if2"),
+                                                  sommet_abstrait_etoile(LS,LA,LSa2,Deg)
+                                                  %LSa2=LSa
+                                      )
+
+    ),  writeln(LSa).
+
+  sommet_abstrait_etoile_voisin(S,LS,LA,Deg):-
+    S=sommet(X,_LM),
+    (member(arete(X,Y),LA);member(arete(Y,X),LA)),
+    %LS=[SY|LS2],
+    SY=sommet(Y,_LMY),
+    degre_sommet(SY,LA,NY),
+    writeln("sommmet voisin"),
+    write(SY),
+    (
+    NY >= Deg ->writeln("sommmet voisin OKK")
+              ;LS=[SY|LS2],
+              writeln("sommmet voisin2"),
+              sommet_abstrait_etoile_voisin(S,LS2,LA,Deg)
+              ).
+  %sommet_abstrait_etoile_voisin(S,[],LA,Deg):- 2=3.
+
+  arete_abstrait_etoile(_LSa,[],_LAa).
+  arete_abstrait_etoile(LSa,[A|LA],LAa):-
+    (A=arete(X,Y);A=arete(Y,X)),
+    member(S,LSa),
+    S=sommet(X,_LM),
+    append([A],[],LSa),
+    arete_abstrait(LSa,LA,LAa).
+
+  etoile(G_in,G_out,Deg):-
+      G_in=att_graph(LS,LA),
+      sommet_abstrait_etoile(LS,LA,LSa,Deg),
+      arete_abstrait_etoile(LSa,LA,LAa),
+      G_out=att_graph(LSa,LAa).
+  /*
+  sommet_abstrait_etoile(S,LA,LSa,Deg):-
+    S=sommet(X,_LM),
+    degre_sommet(S,LA,N),
+    (N >= Deg -> append([S],[],LSa)).*/

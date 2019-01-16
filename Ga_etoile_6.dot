@@ -1,0 +1,21 @@
+Graph {
+  labelloc=top;
+  fontsize=18;
+  label="Gouts musicaux, [pop,rock,folk,blues,jazz]";
+  b [label="b [rock,folk,blues,jazz]"];
+  c [label="c [rock,folk,jazz]"];
+  d [label="d [rock,folk,jazz]"];
+  e [label="e [rock,folk,blues]"];
+  k [label="k [rock]"];
+  r [label="r [rock,folk,pop,blues]"];
+  a [label="a [rock,folk,jazz]"];
+  a -- b;
+  a -- c;
+  a -- d;
+  a -- e;
+  a -- k;
+  a -- r;
+  b -- c;
+  b -- d;
+  c -- d;
+}
